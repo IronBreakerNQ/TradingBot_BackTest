@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const DataSchema = new Schema({
-    TimeDate: {type:Date, require:true},
-    Open: { type: Number, required: true },
-    High: { type: Number, required: true },
-    Low: { type: Number, required: true },
-    Close: { type: Number, required: true },
-    Volume: { type: Number, required: true },
+    TimeDate: {type:Date, },
+    Open: { type: Number,},
+    High: { type: Number,},
+    Low: { type: Number,},
+    Close: { type: Number,},
+    Volume: { type: Number,},
     RSI:{ type: Number},
     EMA:{ type: Number},
     data: [

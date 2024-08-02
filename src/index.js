@@ -10,7 +10,13 @@ db.connect();
 
 
 const test = require('./Moduls/InputData');
-test.InputAM();
+// s
+
+
+//use routes
+const route = require('./Routers');
+route(app);
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port http://localhost:${port}`);

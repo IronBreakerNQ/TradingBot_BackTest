@@ -95,9 +95,9 @@ class InputData{
         }
     };
     
-    InputTM = async()=>{
 
-        try{
+    InputTM = async () => {
+        try {
             let now = Date.now();        
             let nowDate = new Date(now);
 
@@ -112,37 +112,37 @@ class InputData{
 
 
             const oneDayInMillis = 24 * 60 * 60 * 1000;
-
-        const since = [];
-
-        for(let i = 18 ; i <= 90 ; i += 18){
-            since.push(now- i -oneDayInMillis);
-        }
-
-        const [
-            data1, data2, data3,
-            data4, data5
-
-        ] = await Promise.all([
-            this.GetScripData(since[0], yesterdayMidnight),
-            this.GetScripData(since[1], since[0]),
-            this.GetScripData(since[2], since[1]),
-            this.GetScripData(since[3], since[2]),
-            this.GetScripData(since[4], since[3]),
-        ]);
-
-         
-        const mergedData = [
-            ...data1.reverse(), ...data2.reverse(), ...data3.reverse(), ...data4.reverse(), ...data5.reverse()
-        ];
-
-        console.log(mergedData.length);
-        return mergedData; 
-        }catch(error){
+    
+            const since = [];
+            for (let i = 18; i <= 90; i += 18) {
+                 let yesterdayMidnight1=yesterdayMidnight-(i*oneDayInMillis)
+                 since.push(yesterdayMidnight1);
+            }
+    
+            const [
+                data1, data2, data3,
+                data4, data5
+            ] = await Promise.all([
+                this.GetScripData(since[0], yesterdayMidnight),
+                this.GetScripData(since[1], since[0]),
+                this.GetScripData(since[2], since[1]),
+                this.GetScripData(since[3], since[2]),
+                this.GetScripData(since[4], since[3])
+            ]);
+    
+            const mergedData = [
+                ...data1.reverse(), ...data2.reverse(), ...data3.reverse(), ...data4.reverse(), ...data5.reverse()
+            ];
+    
+            console.log(mergedData.length);
+            return mergedData; 
+        } catch (error) {
             console.error("Error merging data:", error);
         }
+    };
+    
 
-    }
+
 
     InputSM = async()=>{
 
@@ -164,8 +164,9 @@ class InputData{
 
         const since = [];
 
-        for(let i = 18 ; i <= 90 ; i += 18){
-            since.push(now- i -oneDayInMillis);
+        for(let i = 36 ; i <= 180 ; i += 36){
+            let yesterdayMidnight1=yesterdayMidnight-(i*oneDayInMillis)
+            since.push(yesterdayMidnight1);
         }
 
         const [
