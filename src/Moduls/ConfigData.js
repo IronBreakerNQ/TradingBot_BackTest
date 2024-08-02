@@ -25,6 +25,7 @@ class ConfigData{
             console.log(err);
         }
     }
+
 }
 
 module.exports = new ConfigData
