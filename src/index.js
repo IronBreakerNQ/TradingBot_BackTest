@@ -9,6 +9,9 @@ const db = require('./Config/db/index')
 db.connect();
 
 
+const test = require('./Moduls/InputData');
+test.InputAM();
+
 app.listen(port, () => {
     console.log(`Example app listening on port http://localhost:${port}`);
 });
