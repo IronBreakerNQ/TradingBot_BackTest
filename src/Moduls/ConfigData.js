@@ -41,17 +41,53 @@ class ConfigData{
                     subArray[i].ema200 = i<200 ? emas200[0] : emas200[i-200];
                 }
 
+                const copySubArrayVolume = subArray.map(obj =>{
+                    return obj.volume;
+                })
+
+                const copySubArrayRSI = subArray.map(obj =>{
+                    return obj.rsi200;
+                })
+
+                const copySubArrayEMA = subArray.map(obj =>{
+                    return obj.ema200;
+                })
+
+                const copySubArrayLow = subArray.map(obj =>{
+                    return obj.low;
+                })
+                
+                const copySubArrayhigh = subArray.map(obj =>{
+                    return obj.high;
+                })
+
+               Algorithm.MergeSort(copySubArrayLow,0,719);
+               Algorithm.MergeSort(copySubArrayhigh,0,719);
+
+
+
                 const timeStart = subArray[0].timestamp;
                 const timeEnd= subArray[719].timestamp;
                 const open = subArray[0].open;
+                let low = copySubArrayLow[0];
+                let high = copySubArrayhigh[719];
                 const close = subArray[0].close;
+
+                const volume = copySubArrayVolume.reduce((acc,val) => acc + val,0);
+                const rsi = copySubArrayRSI.reduce((acc,val) => acc + val,0)/720;
+                const ema = copySubArrayEMA.reduce((acc,val) => acc + val,0)/720;
 
                  const data = await Data.create(
                     {
                         TimeStart:timeStart,
                         TimeEnd:timeEnd,
                         Open:open,
+                        High:high,
+                        Low:low,
                         Close:close,
+                        Volume:volume,
+                        RSI:rsi,
+                        EMA:ema,
                         data:subArray
                     });
             }
