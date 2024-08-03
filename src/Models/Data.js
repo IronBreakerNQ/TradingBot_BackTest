@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const DataSchema = new Schema({
-    TimeDate: {type:Date, },
+    TimeStart: {type:Date, },
+    TimeEnd: {type:Date, },
     Open: { type: Number,},
     High: { type: Number,},
     Low: { type: Number,},

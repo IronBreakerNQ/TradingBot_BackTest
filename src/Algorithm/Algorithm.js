@@ -52,6 +52,21 @@ class Algorithm {
 
         return rsis; // Trả về mảng RSI
     }
+
+    EMA = (arr, N) => {
+        const alpha  = 2 / (N + 1);
+        let ema = [];
+
+        let sma = arr.slice(0,N).reduce((acc,val) => acc + val, 0) / N;
+        ema.push(sma);
+
+        for( let i = N ; i < arr.length ; i++){
+            sma = alpha * (arr[i] - sma) + sma;
+            ema.push(sma);
+        }
+
+        return ema;
+    }
 }
 
 module.exports = new Algorithm();
