@@ -1,72 +1,57 @@
-class Algorithm{
-    calculateAverage = async(values,period) =>{
+class Algorithm {
+    // Hàm tính trung bình cộng
+    calculateAverage = (values, period) => {
         let sum = values.reduce((acc, val) => acc + val, 0);
-        return sum / period;    
+        return sum / period;
     }
 
-    RSI = async (arr) => {
+    // Hàm tính RSI
+    RSI = (arr, period) => {
         const gains = [];
-        const lost = [];
+        const losses = [];
 
-        let n = 14;
-
-        for(let i = 1; i<arr.length;i++){
-            let change = arr[i]-arr[i-1];
-            if(change >= 0 ){
-                gains.push(change);
-                lost.push(0);
-            }else{
-                gains.push(0);
-                lost.push(change);
+        // Tính toán các mức tăng và giảm
+        for (let i = 1; i < arr.length; i++) {
+            let change = arr[i] - arr[i - 1];
+            if (change >= 0) {
+                gains.push(change); // Thêm vào mảng gains nếu tăng
+                losses.push(0); // Thêm vào mảng losses nếu không giảm
+            } else {
+                gains.push(0); // Thêm vào mảng gains nếu không tăng
+                losses.push(Math.abs(change)); // Thêm vào mảng losses nếu giảm
             }
         }
 
-        const avgGain = this.calculateAverage(gains.slice(0 , n), n);
-        const avgLost = this.calculateAverage(lost.slice(0 , n), n);
+        // Tính trung bình cộng của gains và losses trong khoảng thời gian đầu tiên
+        let avgGain = this.calculateAverage(gains.slice(0, period), period);
+        let avgLoss = this.calculateAverage(losses.slice(0, period), period);
 
         const rsis = [];
 
         let currentAvgGain = avgGain;
-        let currentAvgLosses = avgLosses;
+        let currentAvgLoss = avgLoss;
 
-        for(let i = n ; i < arr.length ; i++){
-            if(i === n){
-                let rs;
-                if(avgLost === 0 ){
-                    rs = 100;
-                }else{
-                    rs = avgGain / avgLost;
-                }
+        // Tính toán RSI cho mỗi giá trị tiếp theo
+        for (let i = period; i < arr.length; i++) {
+            if (i === period) {
+                let rs = avgLoss === 0 ? 100 : avgGain / avgLoss; // Xử lý trường hợp avgLoss bằng 0
                 let rsi = 100 - (100 / (1 + rs));
-
-                Math.floor(rsi);
-
-                rsis.push(
-                    Math.floor(rsi)
-                );
-
-            }else{
+                rsis.push(Math.floor(rsi)); // Thêm RSI đầu tiên vào mảng rsis
+            } else {
                 let gain = gains[i - 1];
-                let loss = lost[i - 1];
+                let loss = losses[i - 1];
 
-                currentAvgGain = ((currentAvgGain * (n - 1)) + gain) / n;
-                currentAvgLosses = ((currentAvgLosses * (n - 1)) + loss) / n;
+                currentAvgGain = ((currentAvgGain * (period - 1)) + gain) / period; // Cập nhật trung bình gains
+                currentAvgLoss = ((currentAvgLoss * (period - 1)) + loss) / period; // Cập nhật trung bình losses
 
-                let rs = currentAvgGain / currentAvgLosses;
+                let rs = currentAvgGain / currentAvgLoss;
                 let rsi = 100 - (100 / (1 + rs));
-
-                Math.floor(rsi);
-                rsis.push(  
-                     Math.floor(rsi)
-                );
+                rsis.push(Math.floor(rsi)); // Thêm RSI vào mảng rsis
             }
         }
 
-        return rsis;
-    }
-    EMA = async () => {
-
+        return rsis; // Trả về mảng RSI
     }
 }
 
-module.exports = Algorithm;
+module.exports = new Algorithm();
